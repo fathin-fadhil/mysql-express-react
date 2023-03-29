@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/loginform' element={<LoginForm />}></Route>
+        <Route path='/auth' element={<LoginForm />}></Route>
       </Routes>
     </BrowserRouter>
   )

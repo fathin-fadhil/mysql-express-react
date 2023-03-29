@@ -17,12 +17,14 @@ function LoginForm() {
         setIsLogin(!isLogin)
     }
 
-    const handleLogin = (data) => {
-        console.log(data)        
+    const handleLogin = async (data) => {
+        console.log(data)
+        await axios.post('/login', data)
     }
 
-    const handleRegister = (data) => {
+    const handleRegister = async (data) => {
         console.log(data)
+        await axios.post('/register', data)
     }
 
     return (
