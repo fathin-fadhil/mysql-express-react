@@ -9,6 +9,21 @@ import {
 
 export default function LoginComp(props) {
     const handleMode = props.handleChangeMode
+    const handleLogin = props.handleLogin
+
+    let data ={}
+
+    const compHandleLogin = (ev) => {
+        ev.preventDefault()
+        handleLogin(data)
+    }
+
+    const handleChange = (ev) => {
+        const name = ev.target.name;
+        const value = ev.target.value;
+        data = {...data, [name]: value}
+    }
+
     return (
         <div className='mx-auto'>
             <Typography variant="h2" color="blue-gray" className='text-center font-semibold'>
@@ -25,45 +40,21 @@ export default function LoginComp(props) {
                 </Typography>
             </div>
                       
-            <Card color="transparent" shadow={false} className='min-w-md max-w-lg items-center align-middle /* bg-white */  p-5 sm:shadow' >
+            <Card color="transparent" shadow={false} className='min-w-md max-w-lg items-center align-middle bg-white  p-5 sm:shadow' >
                 
-                <form className=" mb-2 w-80 max-w-screen-lg sm:w-96">
-                    <div className="mb-4 flex flex-col gap-6">
-                        <Input size="lg" label="Email" />
-                        <Input type="password" size="lg" label="Password" />
+                <Typography color="gray" className="mt-1 font-normal">
+                    Please enter your credentials.
+                </Typography>
+                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={compHandleLogin}>
+                    <div className="mb-4 flex flex-col gap-6">                        
+                        <Input size="lg" label="Email" type='email' name='email' onChange={handleChange}/>
+                        <Input type="password" size="lg" label="Password" name='password' onChange={handleChange}/>
                     </div>
-                    <Checkbox
-                        label={
-                            (
-                            <Typography
-                                variant="small"
-                                color="gray"
-                                className="flex items-center font-normal"
-                            >
-                                I agree the
-                                <a
-                                href="#"
-                                className="font-medium transition-colors hover:text-blue-500"
-                                >
-                                &nbsp;Terms and Conditions
-                                </a>
-                            </Typography>
-                            )
-                        }
-                        containerProps={{ className: "-ml-2.5" }}
-                    />
-                    <Button className="mt-6" fullWidth>
-                        Register
+
+                    <Button className="mt-6" fullWidth type='submit'>
+                        Log in
                     </Button>
-                    <Typography color="gray" className="mt-4 text-center font-normal">
-                        Already have an account?{" "}
-                        <a
-                            href="#"
-                            className="font-medium text-blue-500 transition-colors hover:text-blue-700"
-                        >
-                            Sign In
-                        </a>
-                    </Typography>
+
                 </form>
             </Card>
         </div>    

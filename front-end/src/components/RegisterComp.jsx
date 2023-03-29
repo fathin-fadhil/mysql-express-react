@@ -10,6 +10,21 @@ import React from 'react'
 
 export default function RegisterComp(props) {
     const handleMode = props.handleChangeMode
+    const handleRegister = props.handleRegister
+
+    let data ={}
+
+    const handleChange = (ev) => {
+        const name = ev.target.name;
+        const value = ev.target.value;
+        data = {...data, [name]: value}
+    }
+
+    const compHandleRegister = (ev) => {
+        ev.preventDefault()
+        handleRegister(data)
+    }
+
     return (
         <div className='mx-auto'>
             <Typography variant="h2" color="blue-gray" className='text-center font-semibold'>
@@ -30,11 +45,11 @@ export default function RegisterComp(props) {
                 <Typography color="gray" className="mt-1 font-normal">
                     Enter your details to register.
                 </Typography>
-                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={compHandleRegister}>
                     <div className="mb-4 flex flex-col gap-6">
-                    <Input size="lg" label="Name" />
-                    <Input size="lg" label="Email" />
-                    <Input type="password" size="lg" label="Password" />
+                    <Input size="lg" label="Name" name="name" onChange={handleChange}/>
+                    <Input size="lg" label="Email" name="email" onChange={handleChange} type="email"/>
+                    <Input type="password" size="lg" label="Password" name="password" onChange={handleChange}/>
                     </div>
                     <Checkbox
                         label={
@@ -56,18 +71,9 @@ export default function RegisterComp(props) {
                         }
                         containerProps={{ className: "-ml-2.5" }}
                     />
-                    <Button className="mt-6" fullWidth>
+                    <Button className="mt-6" fullWidth type="submit">
                         Register
                     </Button>
-                    <Typography color="gray" className="mt-4 text-center font-normal">
-                        Already have an account?{" "}
-                        <a
-                            href="#"
-                            className="font-medium text-blue-500 transition-colors hover:text-blue-700"
-                        >
-                            Sign In
-                        </a>
-                    </Typography>
                 </form>
             </Card>
         </div>    
