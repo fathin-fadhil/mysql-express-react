@@ -4,17 +4,19 @@ import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import createError from "http-errors";
+import dotenv from 'dotenv';
 
 // module import
 import db  from "./config/database.js";
 import Users  from "./models/UsersModel.js";
-import { getUserByEmail } from './controllers/UserController.js'
 
 // router import
-import loginRegRouter from "./routes/loginReg.js";
+import authRouter from "./routes/authRouter.js";
+import apiRouter from "./routes/apiRouter.js"
 
 
 var app = express();
+dotenv.config()
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -22,6 +24,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), './public')));
 
+
+// database connection
 try {
   await db.authenticate()
   console.log('db connected successfully')
@@ -32,7 +36,8 @@ try {
 }
 
 // routing
-app.use('/', loginRegRouter)
+app.use('/', authRouter)
+app.use('/api', apiRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
