@@ -1,4 +1,4 @@
-var express = require('express')
+import express from 'express';
 var router = express.Router();
 
 router.post('/login', (req, res) => {
@@ -15,4 +15,4 @@ router.post('/register', (req, res) => {
     res.json({message: "register successful"}).status(200)
 })
 
-module.exports = router
+export default router
