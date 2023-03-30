@@ -1,28 +1,42 @@
-import {
-    Card,
-    Input,
-    Checkbox,
-    Button,
-    Typography,
-  } from "@material-tailwind/react";
+import {Card, Input, Checkbox, Button, Typography,} from "@material-tailwind/react";
+import axios from "axios";
+import React, {useState} from 'react'
 
-import React from 'react'
 
 export default function RegisterComp(props) {
     const handleMode = props.handleChangeMode
-    const handleRegister = props.handleRegister
+    const [message, setMessage] = useState('');
+    const [msgColor, setMsgColor] = useState('black');
+    const [checkBox, setCheckBox] = useState(false);
 
-    let data ={}
-
+    const [data, setData] = useState({name: '', email:'', password: '', confPassword: ''});
     const handleChange = (ev) => {
         const name = ev.target.name;
         const value = ev.target.value;
-        data = {...data, [name]: value}
+        setData(prev => { return {...prev, [name]: value}})   
+        
     }
 
-    const compHandleRegister = (ev) => {
+    const handleRegister =async (ev) => { 
         ev.preventDefault()
-        handleRegister(data)
+        if(!checkBox) {
+            return setMessage('You need to agree to our Terms and Conditions')
+        }
+     
+        await axios.post('/register', data).then( val => {     
+            console.log("data = " + JSON.stringify(data))       
+            const messageFromServer = val.data.message
+            setMessage(messageFromServer)
+            console.log("🚀 ~ file: RegisterComp.jsx:34 ~ awaitaxios.post ~ messageFromServer:", messageFromServer)
+            setMsgColor('green')
+        }).catch(reason => {
+            console.log("data = " + JSON.stringify(data))       
+            const messageFromServer = reason.response.data.message
+            setMessage(messageFromServer)
+            console.log("🚀 ~ file: RegisterComp.jsx:40 ~ awaitaxios.post ~ messageFromServer:", messageFromServer)
+            setMsgColor('red')
+        })
+            
     }
 
     return (
@@ -45,13 +59,14 @@ export default function RegisterComp(props) {
                 <Typography color="gray" className="mt-1 font-normal">
                     Enter your details to register.
                 </Typography>
-                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={compHandleRegister}>
+                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleRegister}>
                     <div className="mb-4 flex flex-col gap-6">
-                    <Input size="lg" label="Name" name="name" onChange={handleChange}/>
-                    <Input size="lg" label="Email" name="email" onChange={handleChange} type="email"/>
-                    <Input type="password" size="lg" label="Password" name="password" onChange={handleChange}/>
+                    <Input size="lg" label="Name" name="name" onChange={handleChange} value={data.name}/>
+                    <Input size="lg" label="Email" name="email" onChange={handleChange} type="email" value={data.email}/>
+                    <Input type="password" size="lg" label="Password" name="password" onChange={handleChange} value={data.password}/>
+                    <Input type="password" size="lg" label="Confirm Password" name="confPassword" onChange={handleChange} value={data.confPassword}/>
                     </div>
-                    <Checkbox
+                    <Checkbox onChange={(e) => {setCheckBox(!checkBox)}} checked={checkBox}
                         label={
                             (
                             <Typography
@@ -71,6 +86,8 @@ export default function RegisterComp(props) {
                         }
                         containerProps={{ className: "-ml-2.5" }}
                     />
+                    <Typography className="font-extralight text-center" variant="small" color={msgColor}>{message}</Typography>
+
                     <Button className="mt-6" fullWidth type="submit">
                         Register
                     </Button>

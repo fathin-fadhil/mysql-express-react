@@ -24,7 +24,7 @@ export const register = async (req, res) => {
 
         try {
             if ((await getUserByEmail(email)) !== null) {
-                return res.status(400).json({message: "email already exist"})
+                return res.status(400).json({message: "Email already exist"})
             } else {
                 await Users.create({
                     name: name,
@@ -45,7 +45,6 @@ export const getUserByEmail = async (emailToFind) => {
             email: emailToFind
         }
     })
-    console.log("🚀 ~ file: UserController.js:48 ~ getUserByEmail ~ user:", user)
     if (user !== null) {
         return user['dataValues']
     }
