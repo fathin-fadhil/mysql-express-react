@@ -1,27 +1,30 @@
-import React from 'react'
-import {
-    Card,
-    Input,
-    Checkbox,
-    Button,
-    Typography,
-  } from "@material-tailwind/react";
+import React, {useState} from 'react'
+import {Card, Input, Button, Typography} from "@material-tailwind/react";
+import axios from 'axios';
 
 export default function LoginComp(props) {
     const handleMode = props.handleChangeMode
-    const handleLogin = props.handleLogin
 
-    let data ={}
+    const [message, setMessage] = useState('a');
+    const [msgColor, setMsgColor] = useState('black');
 
-    const compHandleLogin = (ev) => {
-        ev.preventDefault()
-        handleLogin(data)
-    }
-
+    const [data, setData] = useState({email:'', password: ''});
     const handleChange = (ev) => {
         const name = ev.target.name;
         const value = ev.target.value;
-        data = {...data, [name]: value}
+        setData(prev => { return {...prev, [name]: value}})   
+        
+    }
+
+    const handleLogin = async (ev) => {
+        ev.preventDefault()
+        try {
+            const result = await axios.post('/login', data)
+            console.log(result)
+        } catch (error) {
+            setMsgColor('red')
+            setMessage(error.response.data.message)
+        }
     }
 
     return (
@@ -45,16 +48,17 @@ export default function LoginComp(props) {
                 <Typography color="gray" className="mt-1 font-normal">
                     Please enter your credentials.
                 </Typography>
-                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={compHandleLogin}>
+                <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleLogin}>
                     <div className="mb-4 flex flex-col gap-6">                        
-                        <Input size="lg" label="Email" type='email' name='email' onChange={handleChange}/>
-                        <Input type="password" size="lg" label="Password" name='password' onChange={handleChange}/>
+                        <Input size="lg" label="Email" type='email' name='email' onChange={handleChange} value={data.email}/>
+                        <Input type="password" size="lg" label="Password" name='password' onChange={handleChange} value={data.password}/>
                     </div>
+
+                    <Typography className="font-extralight text-center" variant="small" color={msgColor}>{message}</Typography>
 
                     <Button className="mt-6" fullWidth type='submit'>
                         Log in
                     </Button>
-
                 </form>
             </Card>
         </div>    

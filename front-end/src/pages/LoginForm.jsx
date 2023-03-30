@@ -10,17 +10,11 @@ function LoginForm() {
         setIsLogin(!isLogin)
     }
 
-    const handleLogin = async (data) => {
-        console.log(data)
-        await axios.post('/login', data)
-    }
-
     return (
         <div className=' h-full flex flex-col justify-center  sm:bg-blue-gray-50'>
             {isLogin
             ? <LoginComp  
                 handleChangeMode={handleMode} 
-                handleLogin={handleLogin} 
                 />
             : <RegisterComp 
                 handleChangeMode={handleMode} 

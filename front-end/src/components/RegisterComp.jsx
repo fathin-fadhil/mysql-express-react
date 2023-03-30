@@ -24,16 +24,12 @@ export default function RegisterComp(props) {
         }
      
         await axios.post('/register', data).then( val => {     
-            console.log("data = " + JSON.stringify(data))       
-            const messageFromServer = val.data.message
-            setMessage(messageFromServer)
-            console.log("🚀 ~ file: RegisterComp.jsx:34 ~ awaitaxios.post ~ messageFromServer:", messageFromServer)
+            console.log("data = " + JSON.stringify(data))                   
+            setMessage(val.data.message)            
             setMsgColor('green')
         }).catch(reason => {
-            console.log("data = " + JSON.stringify(data))       
-            const messageFromServer = reason.response.data.message
-            setMessage(messageFromServer)
-            console.log("🚀 ~ file: RegisterComp.jsx:40 ~ awaitaxios.post ~ messageFromServer:", messageFromServer)
+            console.log("data = " + JSON.stringify(data))               
+            setMessage(reason.response.data.message)
             setMsgColor('red')
         })
             
