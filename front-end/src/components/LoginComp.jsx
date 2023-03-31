@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function LoginComp(props) {
     const handleMode = props.handleChangeMode
 
-    const [message, setMessage] = useState('a');
+    const [message, setMessage] = useState('');
     const [msgColor, setMsgColor] = useState('black');
 
     const [data, setData] = useState({email:'', password: ''});

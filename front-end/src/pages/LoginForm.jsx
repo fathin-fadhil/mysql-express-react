@@ -5,7 +5,7 @@ import RegisterComp from '../components/RegisterComp';
 import LoginComp from "../components/LoginComp";
 
 function LoginForm() {
-    const [isLogin, setIsLogin] = useState(false);
+    const [isLogin, setIsLogin] = useState(true);
     const handleMode = () => {
         setIsLogin(!isLogin)
     }

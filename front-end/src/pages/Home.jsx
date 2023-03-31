@@ -138,7 +138,7 @@ function Home() {
                         </li>
                     </ul>
                 </div>
-                <hr className="my-8 border-blue-gray-50" />
+                <hr className=" my-2 border-blue-gray-50" />
                 <Typography color="blue-gray" className="text-center font-normal">
                     &copy; 2023 PJS Library
                 </Typography>
