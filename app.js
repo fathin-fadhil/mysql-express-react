@@ -17,12 +17,14 @@ import apiRouter from "./routes/apiRouter.js"
 
 var app = express();
 dotenv.config()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), './public')));
+app.use(express.static(path.join(__dirname, './public')));
 
 
 // database connection
@@ -38,6 +40,9 @@ try {
 // routing
 app.use('/', authRouter)
 app.use('/api', apiRouter)
+app.get('*', (req, res) => {
+  res.sendFile('index.html', {root : path.join(__dirname, './public')})
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
