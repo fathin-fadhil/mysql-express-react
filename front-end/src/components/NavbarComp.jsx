@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Navbar, MobileNav, Typography, Button, IconButton, Card} from "@material-tailwind/react";
+import { Navbar, MobileNav, Typography, Button, IconButton } from "@material-tailwind/react";
 import pjslogo from '../assets/pjslogo.svg';
+import ProfileMenuComp from './ProfileMenuComp';
+import { CiLogin } from "react-icons/ci";
 
 function NavbarComp() {
     const [openNav, setOpenNav] = useState(false);
@@ -10,6 +12,11 @@ function NavbarComp() {
           () => window.innerWidth >= 960 && setOpenNav(false)
         );
     }, []);
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    useEffect(() => {
+      setIsLoggedIn(true)
+    });
 
     const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -30,7 +37,7 @@ function NavbarComp() {
             className="p-1 font-normal"
         >
             <a href="/aboutus" className="flex items-center">
-                About US
+                About Us
             </a>
         </Typography>
         <Typography
@@ -43,23 +50,14 @@ function NavbarComp() {
                 Gallery
             </a>
         </Typography>
-        <Typography
-            as="li"
-            variant="small"
-            color="blue-gray"
-            className="p-1 font-normal"
-        >
-            <a href="#" className="flex items-center">
-                Docs
-            </a>
-        </Typography>
+
     </ul>
     );
 
     return (
     <>
       <Navbar className="fixed inset-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
-        <div className="flex items-center justify-between text-blue-gray-900">
+        <div className="flex items-center  text-blue-gray-900 justify-between">
           <img src={pjslogo} className=' h-11'></img>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
@@ -68,7 +66,7 @@ function NavbarComp() {
               size="sm"
               className="hidden lg:inline-block"
             >
-              <span>Buy Now</span>
+              <span>Catalog</span>
             </Button>
             <IconButton
               variant="text"
@@ -107,12 +105,14 @@ function NavbarComp() {
                 </svg>
               )}
             </IconButton>
+            {isLoggedIn ? <ProfileMenuComp /> : <a href='/auth'> <Button variant="outlined" size='sm' className='flex gap-2 items-center'> <CiLogin strokeWidth={2} size={15}/> Login</Button> </a>}
           </div>
+          
         </div>
         <MobileNav open={openNav}>
           {navList}
           <Button variant="gradient" size="sm" fullWidth className="mb-2">
-            <span>Buy Now</span>
+            <span>Catalog</span>
           </Button>
         </MobileNav>
       </Navbar>

@@ -2,10 +2,9 @@ import React, { useEffect } from 'react'
 import { Button, Typography} from "@material-tailwind/react";
 import NavbarComp from '../components/NavbarComp';
 import {RxArrowRight} from 'react-icons/rx';
-import {FaFacebookF, FaTwitter, FaYoutube, FaInstagram} from 'react-icons/fa';
-import pjslogo from '../assets/pjslogo.svg';
 import mainimage from '../assets/img/mainimage.jpeg'
 import GalleryComp from '../components/GalleryComp';
+import FooterComp from '../components/FooterComp';
 
 function Home(props) {
     const goTo = props.element || 'hero'
@@ -62,37 +61,7 @@ function Home(props) {
                 </section>
             </div>
 
-            <footer className="w-full bg-blue-gray-50 p-8">
-                <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12  text-center md:justify-between">
-                    <img src={pjslogo} alt="logo-ct" className="w-[150px]" />
-                    <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
-                        <li>
-                            <Typography as="a" href="#" color="blue-gray" className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500">
-                            <FaInstagram/>
-                            </Typography>
-                        </li>
-                        <li>
-                            <Typography as="a" href="#" color="blue-gray" className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500">
-                            <FaYoutube/>
-                            </Typography>
-                        </li>
-                        <li>
-                            <Typography as="a" href="#" color="blue-gray" className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500">
-                            <FaTwitter/>
-                            </Typography>
-                        </li>
-                        <li>
-                            <Typography as="a" href="#" color="blue-gray" className="font-normal transition-colors hover:text-blue-500 focus:text-blue-500" >
-                            <FaFacebookF/>
-                            </Typography>
-                        </li>
-                    </ul>
-                </div>
-                <hr className=" my-2 border-blue-gray-50" />
-                <Typography color="blue-gray" className="text-center font-normal">
-                    &copy; 2023 PJS Library
-                </Typography>
-            </footer>
+            <FooterComp />
         </>       
     )
 }
