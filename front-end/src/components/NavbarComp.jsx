@@ -19,8 +19,8 @@ function NavbarComp() {
             color="blue-gray"
             className="p-1 font-normal"
         >
-            <a href="#" className="flex items-center">
-                Pages
+            <a href="/" className="flex items-center">
+                Home
             </a>
         </Typography>
         <Typography
@@ -29,8 +29,8 @@ function NavbarComp() {
             color="blue-gray"
             className="p-1 font-normal"
         >
-            <a href="#" className="flex items-center">
-                Account
+            <a href="/aboutus" className="flex items-center">
+                About US
             </a>
         </Typography>
         <Typography
@@ -39,8 +39,8 @@ function NavbarComp() {
             color="blue-gray"
             className="p-1 font-normal"
         >
-            <a href="#" className="flex items-center">
-                Blocks
+            <a href="/gallery" className="flex items-center">
+                Gallery
             </a>
         </Typography>
         <Typography
