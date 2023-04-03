@@ -8,6 +8,9 @@ module.exports = withMT({
   ],
   theme: {
     extend: {},
+    screens: {
+      'customDesktopBp': '1400px'
+    }
   },
   plugins: [],
 })

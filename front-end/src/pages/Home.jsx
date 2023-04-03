@@ -22,8 +22,8 @@ function Home(props) {
 
     return (
         <>
-            <NavbarComp />            
             <div className=' block '>
+                <NavbarComp />            
                 <section id='hero'>
                     <div>
                         <div className=" bg-center  bg-[url('/images/mainimage.jpeg')] bg-cover w-full h-screen text-center" style={{backgroundImage: `url(${mainimage})`}} >
