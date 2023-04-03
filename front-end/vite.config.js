@@ -7,7 +7,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/login': 'http://localhost:3000',
-      '/register': 'http://localhost:3000'
+      '/register': 'http://localhost:3000',
+      '/api': 'http://localhost:3000',
+      '/logout': 'http://localhost:3000',
+      '/token': 'http://localhost:3000',
     }
   },
   build: {

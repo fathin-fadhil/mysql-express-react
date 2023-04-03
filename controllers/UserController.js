@@ -18,7 +18,7 @@ export const login = async (req, res) => {
     if (searchedUser === null) {
         return res.status(401).json({message: "Email not found"})
     }
-    const {id, name, email, password} = searchedUser
+    const {id, name, email, password, roles} = searchedUser
 
     const match = await bcrypt.compare(req.body.password, password)
 
@@ -44,7 +44,7 @@ export const login = async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000
         // add secure: true klo pake https
     })
-    res.json({accessToken})    
+    res.json({accessToken, name, email, roles})    
 }
 
 export const register = async (req, res) => {
@@ -64,7 +64,8 @@ export const register = async (req, res) => {
                 await Users.create({
                     name: name,
                     email: email,
-                    password: hashedPassword
+                    password: hashedPassword,
+                    roles: 'user'
                 })
                 res.json({message: 'Register Successful'})
             }            

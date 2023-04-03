@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Navbar, MobileNav, Typography, Button, IconButton } from "@material-tailwind/react";
 import pjslogo from '../assets/pjslogo.svg';
 import ProfileMenuComp from './ProfileMenuComp';
 import { CiLogin } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 function NavbarComp() {
     const [openNav, setOpenNav] = useState(false);
+    const navigate = useNavigate()
+    const [cookies] = useCookies(['cred'])
+
     useEffect(() => {
         window.addEventListener(
           "resize",
@@ -15,8 +20,16 @@ function NavbarComp() {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(() => {
-      setIsLoggedIn(true)
+      if (cookies['cred'] && cookies['cred'].name) {
+        setIsLoggedIn(true)
+      } else {
+        setIsLoggedIn(false)
+      }
     });
+    const goToCatalog = () => {
+        navigate('/catalog')
+    }
+    
 
     const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -65,6 +78,7 @@ function NavbarComp() {
               variant="gradient"
               size="sm"
               className="hidden lg:inline-block"
+              onClick={goToCatalog}
             >
               <span>Catalog</span>
             </Button>

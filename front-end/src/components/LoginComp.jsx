@@ -1,12 +1,18 @@
-import React, {useState} from 'react'
+import {useState, useContext} from 'react'
 import {Card, Input, Button, Typography} from "@material-tailwind/react";
 import axios from 'axios';
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export default function LoginComp(props) {
     const handleMode = props.handleChangeMode
 
+    const navigate = useNavigate()
+    const {auth, setAuth} = useAuth()
     const [message, setMessage] = useState('');
     const [msgColor, setMsgColor] = useState('black');
+    const [cookies, setCookie, removeCookie] = useCookies(['cred'])
 
     const [data, setData] = useState({email:'', password: ''});
     const handleChange = (ev) => {
@@ -19,12 +25,29 @@ export default function LoginComp(props) {
     const handleLogin = async (ev) => {
         ev.preventDefault()
         try {
-            const result = await axios.post('/login', data)
+            const result = await axios.post('/login', data, {withCredentials: true})
             console.log(result)
+            const { accessToken, name, email, roles } = result.data
+            await setAuth({accessToken})       
+            setCookie('cred', {name, email, roles}, {path: '/'})   
+            navigate('/')
+
+            setData({email:'', password: ''})
         } catch (error) {
             setMsgColor('red')
-            setMessage(error.response.data.message)
+            
+            if (error.response.hasOwnProperty('data')) {
+                setMessage(error.response.data.message)
+            } else if (error.hasOwnProperty('response')) {
+                setMessage(`Server responded with error code ${error.response?.status}` )
+            } else {
+                console.log(error)
+            }        
         }
+    }
+
+    const print = () => {
+        console.log(auth)
     }
 
     return (
@@ -59,7 +82,11 @@ export default function LoginComp(props) {
                     <Button className="mt-6" fullWidth type='submit'>
                         Log in
                     </Button>
+                    
                 </form>
+                <Button onClick={print}>
+                        print auth
+                    </Button>
             </Card>
         </div>    
     )

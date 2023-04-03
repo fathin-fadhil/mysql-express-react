@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react'
 import { UserCircleIcon,  ChevronDownIcon, Cog6ToothIcon, InboxArrowDownIcon, LifebuoyIcon, PowerIcon } from "@heroicons/react/24/outline";
 import { Typography, Button, Menu, MenuHandler, MenuList, MenuItem, Avatar} from "@material-tailwind/react";
+import { useNavigate } from "react-router-dom";
 
 function ProfileMenuComp() {
     const profileMenuItems = [
@@ -28,7 +29,9 @@ function ProfileMenuComp() {
     ];  
   
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const navigate = useNavigate()
     const closeMenu = () => setIsMenuOpen(false);
+    const handleSignout = () => {setIsMenuOpen(false); navigate('/signout')}
    
     return (
       <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -59,7 +62,7 @@ function ProfileMenuComp() {
             return (
               <MenuItem
                 key={label}
-                onClick={closeMenu}
+                onClick={isLastItem? handleSignout: closeMenu}
                 className={`flex items-center gap-2 rounded ${
                   isLastItem
                     ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"

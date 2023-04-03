@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 import { ThemeProvider } from "@material-tailwind/react";
+import { AuthProvider } from "./context/AuthProvider";
+import { CookiesProvider } from "react-cookie";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>      
+    <CookiesProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>      
+      </AuthProvider>
+    </CookiesProvider>    
   </React.StrictMode>,
 )

@@ -1,18 +1,24 @@
 import React, { useEffect } from 'react'
-import { Button, Typography} from "@material-tailwind/react";
+import { Button} from "@material-tailwind/react";
 import NavbarComp from '../components/NavbarComp';
 import {RxArrowRight} from 'react-icons/rx';
 import mainimage from '../assets/img/mainimage.jpeg'
 import GalleryComp from '../components/GalleryComp';
 import FooterComp from '../components/FooterComp';
+import { useNavigate } from "react-router-dom";
 
 function Home(props) {
     const goTo = props.element || 'hero'
+    const navigate = useNavigate()
 
     useEffect(() => {
         const xCoor = document.getElementById(goTo).getBoundingClientRect().top - 100
         window.scrollTo({behavior: 'smooth', top:xCoor})
     }, [])
+
+    const goToCatalog = () => {
+        navigate('/catalog')
+    }
 
     return (
         <>
@@ -29,7 +35,7 @@ function Home(props) {
                                     </p>
                                 </div>
                                 
-                                <Button className=' w-fit mx-auto inline-flex items-center'>
+                                <Button className=' w-fit mx-auto inline-flex items-center' onClick={goToCatalog}>
                                     Katalog Buku
                                     <RxArrowRight strokeWidth={1} className="h-4 w-5" />    
                                 </Button>
