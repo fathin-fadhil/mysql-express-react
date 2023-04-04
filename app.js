@@ -13,6 +13,7 @@ import Users  from "./models/UsersModel.js";
 // router import
 import authRouter from "./routes/authRouter.js";
 import apiRouter from "./routes/apiRouter.js"
+import Books from './models/BooksModel.js';
 
 
 var app = express();
@@ -33,6 +34,8 @@ try {
   console.log('db connected successfully')
   await Users.sync()
   console.log('users model synced')
+  await Books.sync()
+  console.log('books model synced')
 } catch (error) {
   console.error(error)
 }

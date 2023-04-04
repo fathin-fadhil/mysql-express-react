@@ -1,49 +1,16 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import NavbarComp from '../components/NavbarComp';
 import { Card, CardHeader, CardBody, Typography, Button, Dialog, DialogBody, DialogHeader, DialogFooter } from "@material-tailwind/react";
 import placeholderImg from '../assets/img/placeholderImg.png'
 import useWindowDimensions from '../hooks/useWindowsDimensions';
-
-
-const dataBuku = [
-    {
-        judul: 'Thus Spoke Zarathustra',
-        image_url: "https://books.google.co.id/books/publisher/content?id=2jFBDwAAQBAJ&hl=id&pg=PP1&img=1&zoom=3&bul=1&sig=ACfU3U3YmAN8XFIskaZdWrpxtPb1BqmOyw&w=1280",
-        tahun_terbit: '2017',
-        penerbit: 'Lulu.com',
-        pengarang: 'Friedrich Wilhelm Nietzsche',
-        deskripsi: "Thus Spoke Zarathustra is a foundational work of Western literature and is widely considered to be Friedrich Nietzsche's masterpiece. It includes the German philosopher's famous discussion of the phrase 'God is dead' as well as his concept of the Superman. Nietzsche delineates his Will to Power theory and devotes pages to critiquing Christian thinking, in particular Christianity's definition of good and evil.",
-        ISBN: '9781387401512, 1387401513',
-        jumlah_halaman: '232'
-    },
-    {
-        judul: 'The Rebel: An Essay on Man in Revolt',
-        image_url: "https://books.google.co.id/books/content?id=t_3yQrhdxwUC&hl=id&pg=PR4&img=1&zoom=3&sig=ACfU3U2uvlaGpx2rJvhdigPNrPWxqOk5_w&w=1280",
-        tahun_terbit: '2012',
-        penerbit: 'Knopf Doubleday Publishing Group',
-        pengarang: 'Albert Camus',
-        deskripsi: "By one of the most profoundly influential thinkers of our century, The Rebel is a classic essay on revolution. For Albert Camus, the urge to revolt is one of the 'essential dimensions' of human nature, manifested in man's timeless Promethean struggle against the conditions of his existence, as well as the popular uprisings against established orders throughout history. And yet, with an eye toward the French Revolution and its regicides and deicides, he shows how inevitably the course of revolution leads to tyranny. As old regimes throughout the world",
-        ISBN: '0307827836, 9780307827838',
-        jumlah_halaman: '320'
-    },
-]
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 const Catalog = () => {
     const [dialog, setDialog] = useState(false);
-    const [clickedBook, setClikedBook] = useState({
-        judul: 'No book Selected',
-        image_url: 'No book Selected',
-        tahun_terbit: 'No book Selected',
-        penerbit: 'No book Selected',
-        pengarang: 'No book Selected',
-        deskripsi: 'No book Selected',
-        ISBN: 'No book Selected',
-        jumlah_halaman: 'No book Selected'
-    });
-
+    const [clickedBook, setClikedBook] = useState({ judul: 'No book Selected', image_url: 'No book Selected', tahun_terbit: 'No book Selected', penerbit: 'No book Selected', pengarang: 'No book Selected', deskripsi: 'No book Selected', ISBN: 'No book Selected', jumlah_halaman: 'No book Selected'});
     const {height, width } = useWindowDimensions()
-    console.log(width)
     const [dialogSize, setDialogSize] = useState('xl');
+
     const openDialog = (indexBuku) => {
         if (width > 1280) {
             setDialogSize('md')
@@ -56,6 +23,22 @@ const Catalog = () => {
         setClikedBook(dataBuku[indexBuku])
         setDialog(!dialog)
     }
+
+    const axiosPrivate = useAxiosPrivate()
+    const [dataBuku, setDataBuku] = useState([]);
+    useEffect(() => {
+        const getBooks = async () => {
+            try {
+                const books = await axiosPrivate.get('/api/catalog')    
+                const booksArray = books.data.booksArray
+                setDataBuku(booksArray)
+            } catch (error) {
+                console.log(error)
+            }
+            
+        }
+        getBooks()
+    }, []);
 
     return (
         <div className=' block'>
@@ -79,9 +62,9 @@ const Catalog = () => {
                         
                     </CardBody>
                 </Card>
-                ))}
-
-                <Dialog open={dialog} size={dialogSize} handler={() => {setDialog(!dialog)}}>
+                ))}                
+            </div>
+            <Dialog open={dialog} size={dialogSize} handler={() => {setDialog(!dialog)}}>
                     <DialogHeader className=' text-center justify-center'>{clickedBook.judul}</DialogHeader>
                     <DialogBody className=' flex flex-col'>
                         <img src={clickedBook.image_url} className=' w-44 md:w-52 xl:h-80 max-w-80 m-auto '></img>
@@ -125,7 +108,6 @@ const Catalog = () => {
                     </Button>
                     </DialogFooter>
                 </Dialog>
-            </div>
         </div>
     );
 }
