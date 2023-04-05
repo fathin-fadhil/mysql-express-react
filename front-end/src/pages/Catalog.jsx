@@ -16,7 +16,6 @@ const Catalog = () => {
     const [search, setSearch] = useState('');
     const onSearchChange = (ev) => {
         setSearch(ev.target.value)
-        if (search === '') {onSearch()}
     } 
 
     const onSearch = async () => {
@@ -77,7 +76,6 @@ const Catalog = () => {
                         value={search}
                         onChange={onSearchChange}
                         className="pr-20"
-                        onSubmit={onSearch}
                         id='input'
                         containerProps={{
                         className: "min-w-0"                       

@@ -46,10 +46,6 @@ export default function LoginComp(props) {
         }
     }
 
-    const print = () => {
-        console.log(auth)
-    }
-
     return (
         <div className='mx-auto'>
             <Typography variant="h2" color="blue-gray" className='text-center font-semibold'>
@@ -84,9 +80,6 @@ export default function LoginComp(props) {
                     </Button>
                     
                 </form>
-                <Button onClick={print}>
-                        print auth
-                    </Button>
             </Card>
         </div>    
     )
