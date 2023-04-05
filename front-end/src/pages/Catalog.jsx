@@ -4,34 +4,51 @@ import { Card, CardHeader, CardBody, Typography, Button, Dialog, DialogBody, Dia
 import placeholderImg from '../assets/img/placeholderImg.png'
 import useWindowDimensions from '../hooks/useWindowsDimensions';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import ReactPaginate from 'react-paginate';
 
 const Catalog = () => {
     const [dialog, setDialog] = useState(false);
     const [clickedBook, setClikedBook] = useState({ judul: 'No book Selected', image_url: 'No book Selected', tahun_terbit: 'No book Selected', penerbit: 'No book Selected', pengarang: 'No book Selected', deskripsi: 'No book Selected', ISBN: 'No book Selected', jumlah_halaman: 'No book Selected'});
-    const {height, width } = useWindowDimensions()
     const [dialogSize, setDialogSize] = useState('xl');
-
-    const axiosPrivate = useAxiosPrivate()
     const [dataBuku, setDataBuku] = useState([]);
     const [search, setSearch] = useState('');
+    const [page, setPage] = useState(0);
+    const [totalPage, setTotalPage] = useState(0);
+
+    const {height, width } = useWindowDimensions()
+
+    const axiosPrivate = useAxiosPrivate()
+
     const onSearchChange = (ev) => {
         setSearch(ev.target.value)
     } 
 
-    const onSearch = async () => {
+    const onSearch = () => {
+        setPage(0)
+        handleSearch()
+    }
+
+    const handleSearch = async () => {
         try {
             const books = await axiosPrivate.get('/api/catalog', {
                 params: {                    
-                    page: '1',
-                    size: '100',
+                    page: page + 1,
+                    size: '4',
                     query: search
                 }
             })    
             const booksArray = books.data.booksData.booksArray
+            console.log(books.data.booksData)
+            setTotalPage(books.data.booksData.totalPages)
             setDataBuku(booksArray)
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const changePage = ({selected}) => {
+        setPage(selected)
+        window.scrollTo({behavior: 'smooth', top:0})
     }
 
     const openDialog = (indexBuku) => {
@@ -48,7 +65,7 @@ const Catalog = () => {
     }
 
     useEffect(() => {
-        onSearch()
+        handleSearch()
         let input = document.getElementById('input')
         let btn = document.getElementById('searchBtn')
         const action = (ev) => {
@@ -59,7 +76,7 @@ const Catalog = () => {
         input.addEventListener('keypress', action)
 
         return () => { input.removeEventListener('keypress', action)}
-    }, []);
+    }, [page]);
 
     return (
         <div className=' block '>
@@ -84,7 +101,6 @@ const Catalog = () => {
                     <Button
                         size="sm"
                         color="blue"
-                        /* disabled={!search} */
                         className="!absolute right-1 top-1 rounded capitalize"
                         onClick={onSearch}
                         id='searchBtn'
@@ -157,7 +173,16 @@ const Catalog = () => {
                         <span>Pinjam Buku</span>
                     </Button>
                     </DialogFooter>
-                </Dialog>
+            </Dialog>
+            <div className='flex justify-center my-5 h-20'>
+                <ReactPaginate previousLabel='<' nextLabel=">" pageCount={totalPage} onPageChange={changePage} initialPage={0}
+                    containerClassName='inline-flex -space-x-px'
+                    activeLinkClassName='px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+                    previousLinkClassName='px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+                    pageLinkClassName='px-3 py-2 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+                    nextLinkClassName='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'                    
+                ></ReactPaginate>
+            </div>
         </div>
     );
 }
