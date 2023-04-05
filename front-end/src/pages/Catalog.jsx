@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import NavbarComp from '../components/NavbarComp';
-import { Card, CardHeader, CardBody, Typography, Button, Dialog, DialogBody, DialogHeader, DialogFooter } from "@material-tailwind/react";
+import { Card, CardHeader, CardBody, Typography, Button, Dialog, DialogBody, DialogHeader, DialogFooter, Input } from "@material-tailwind/react";
 import placeholderImg from '../assets/img/placeholderImg.png'
 import useWindowDimensions from '../hooks/useWindowsDimensions';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
@@ -10,6 +10,30 @@ const Catalog = () => {
     const [clickedBook, setClikedBook] = useState({ judul: 'No book Selected', image_url: 'No book Selected', tahun_terbit: 'No book Selected', penerbit: 'No book Selected', pengarang: 'No book Selected', deskripsi: 'No book Selected', ISBN: 'No book Selected', jumlah_halaman: 'No book Selected'});
     const {height, width } = useWindowDimensions()
     const [dialogSize, setDialogSize] = useState('xl');
+
+    const axiosPrivate = useAxiosPrivate()
+    const [dataBuku, setDataBuku] = useState([]);
+    const [search, setSearch] = useState('');
+    const onSearchChange = (ev) => {
+        setSearch(ev.target.value)
+        if (search === '') {onSearch()}
+    } 
+
+    const onSearch = async () => {
+        try {
+            const books = await axiosPrivate.get('/api/catalog', {
+                params: {                    
+                    page: '1',
+                    size: '100',
+                    query: search
+                }
+            })    
+            const booksArray = books.data.booksData.booksArray
+            setDataBuku(booksArray)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const openDialog = (indexBuku) => {
         if (width > 1280) {
@@ -24,28 +48,56 @@ const Catalog = () => {
         setDialog(!dialog)
     }
 
-    const axiosPrivate = useAxiosPrivate()
-    const [dataBuku, setDataBuku] = useState([]);
     useEffect(() => {
-        const getBooks = async () => {
-            try {
-                const books = await axiosPrivate.get('/api/catalog')    
-                const booksArray = books.data.booksArray
-                setDataBuku(booksArray)
-            } catch (error) {
-                console.log(error)
+        onSearch()
+        let input = document.getElementById('input')
+        let btn = document.getElementById('searchBtn')
+        const action = (ev) => {
+            if (ev.key === 'Enter') {
+                btn.click()
             }
-            
         }
-        getBooks()
+        input.addEventListener('keypress', action)
+
+        return () => { input.removeEventListener('keypress', action)}
     }, []);
 
     return (
-        <div className=' block'>
+        <div className=' block '>
             <NavbarComp></NavbarComp>
-            <div className='grid grid-cols-1 customDesktopBp:grid-cols-2 mt-10 px-4'>
+            <div className=' pt-6 pb-4 px-6'>
+                <Typography className="text-center mb-4" variant='h1'>
+                    Telusuri Katalog
+                </Typography>
+
+                <div className="relative flex w-full max-w-[40rem] mx-auto" >
+                    <Input
+                        type="text"
+                        label="Search"
+                        value={search}
+                        onChange={onSearchChange}
+                        className="pr-20"
+                        onSubmit={onSearch}
+                        id='input'
+                        containerProps={{
+                        className: "min-w-0"                       
+                        }}
+                    />
+                    <Button
+                        size="sm"
+                        color="blue"
+                        /* disabled={!search} */
+                        className="!absolute right-1 top-1 rounded capitalize"
+                        onClick={onSearch}
+                        id='searchBtn'
+                    >
+                        Cari
+                    </Button>
+                </div>
+            </div>
+            <div className='grid grid-cols-1 customDesktopBp:grid-cols-2 px-4 '>
                 {dataBuku.map((value, index) => (
-                <Card shadow={false} className='flex maxSm:flex-col flex-row p-4 shadow-lg bg-blue-gray-50 m-3 maxSm:text-center maxSm:items-center py-6'>
+                <Card shadow={false} key={index} className='flex maxSm:flex-col flex-row p-4 shadow-lg  m-3 maxSm:text-center maxSm:items-center py-6 bg-blue-gray-50'>
                     <CardHeader className='m-0 flex-shrink-0  h-fit my-auto w-fit '>
                         <img src={value.image_url} className=' h-44 md:h-52 xl:h-80 max-h-80 '></img>
                     </CardHeader>

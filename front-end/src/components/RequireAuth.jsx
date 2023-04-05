@@ -5,7 +5,6 @@ const RequireAuth = ({allowedRole}) => {
     const location = useLocation()
     const [cookies, setCookie, removeCookie] = useCookies(['cred'])
     const cookieAuth = cookies['cred']
-    console.log('print below is from req auth')
     
     if(!cookieAuth){
         return <Navigate to='/auth' state={{from: location}} replace />

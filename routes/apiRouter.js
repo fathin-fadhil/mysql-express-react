@@ -7,10 +7,10 @@ router.get('/test', isAuthenticated, (req, res) => {
     res.json({goodbye: 'world'})
 })
 
-router.get('/catalog', /* isAuthenticated,  */async (req, res) => {
+router.get('/catalog', isAuthenticated, async (req, res) => {
     try {
-        const { page, size, query } = req.body;
-        var condition = query || ""
+        const { page, size, query } = req.query;
+        var condition = query || ''
         if (page == 0) return res.sendStatus(400)
         var dbPage = page - 1
 
