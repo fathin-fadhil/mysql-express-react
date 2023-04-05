@@ -46,7 +46,7 @@ const Catalog = () => {
             <div className='grid grid-cols-1 customDesktopBp:grid-cols-2 mt-10 px-4'>
                 {dataBuku.map((value, index) => (
                 <Card shadow={false} className='flex maxSm:flex-col flex-row p-4 shadow-lg bg-blue-gray-50 m-3 maxSm:text-center maxSm:items-center py-6'>
-                    <CardHeader className='m-0 flex-shrink-0  h-fit my-auto w-fit mb-4 '>
+                    <CardHeader className='m-0 flex-shrink-0  h-fit my-auto w-fit '>
                         <img src={value.image_url} className=' h-44 md:h-52 xl:h-80 max-h-80 '></img>
                     </CardHeader>
                     <CardBody className='flex flex-col pl-4 py-0 flex-shrink overflow-clip flex-grow' >
