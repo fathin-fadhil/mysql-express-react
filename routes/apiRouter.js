@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { isAuthenticated } from '../middleware/checkAuthentication.js';
 const router = Router()
 import { findBooks, getPagination, getPagingData, getBookById } from '../controllers/BooksControler.js';
-import { getBorrowedBooksId } from "../controllers/BorrowerControler.js";
+import { getBorrowedBooksId, borrowBook } from "../controllers/BorrowerControler.js";
 
 router.get('/test', isAuthenticated, (req, res) => {
     res.json({goodbye: 'world'})
@@ -37,6 +37,19 @@ router.get('/borrowing', isAuthenticated, async (req, res) => {
         books.push(book)
     }
     res.json({booksArray: books})
+})
+
+router.post('/borrow', isAuthenticated, async (req, res) => {
+    const email = req.email
+    const bookId = req.body.bookId
+
+    const borrowedBooks = await getBorrowedBooksId(email)
+    
+    if (borrowedBooks.includes(bookId)) {
+        return res.status(409).json({message: 'User already borrowed this book'})
+    }
+    await borrowBook(email, bookId)
+    res.json({message: "Request successful"})
 })
 
 export default router

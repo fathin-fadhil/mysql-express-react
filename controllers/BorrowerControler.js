@@ -30,3 +30,14 @@ export async function getBorrowerById(bookId) {
         return null
     }
 }
+
+export async function borrowBook(email, bookId) {
+    try {
+        await BorrowerList.create({
+            borrower_email: email,
+            book_id: bookId
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
