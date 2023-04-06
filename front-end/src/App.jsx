@@ -6,6 +6,7 @@ import RequireAuth from './components/RequireAuth';
 import Signout from "./components/Signout";
 import NoRequiredAuth from './components/NoRequiredAuth'
 import Admin from "./pages/Admin";
+import MyBooks from "./pages/MyBooks";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route element={<RequireAuth allowedRole='user' />}>
           <Route path="/catalog" element={<Catalog />}></Route>
           <Route path="/signout" element={<Signout ></Signout>}></Route>
+          <Route path="/mybooks" element={<MyBooks ></MyBooks>}></Route>
         </Route>
 
         <Route element={<RequireAuth allowedRole='admin'/>}>

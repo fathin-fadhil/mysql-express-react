@@ -44,6 +44,23 @@ export async function findBooks(query, limit, offset) {
     }
 }
 
+export async function getBookById(id) {
+    try {
+        const book = await Books.findOne({
+            where: {
+                id: id
+            }
+        })
+        
+        if (book !== null) {
+            return book.dataValues
+        }
+        return null
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getPagination = (page, size) => {
     const limit = size ? +size : 4;
     const offset = page ? page * limit : 0;

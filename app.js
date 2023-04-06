@@ -9,11 +9,12 @@ import dotenv from 'dotenv';
 // module import
 import db  from "./config/database.js";
 import Users  from "./models/UsersModel.js";
+import Books from './models/BooksModel.js';
+import BorrowerList from './models/BorrowerListModel.js';
 
 // router import
 import authRouter from "./routes/authRouter.js";
 import apiRouter from "./routes/apiRouter.js"
-import Books from './models/BooksModel.js';
 
 
 var app = express();
@@ -36,6 +37,8 @@ try {
   console.log('users model synced')
   await Books.sync()
   console.log('books model synced')
+  await BorrowerList.sync()
+  console.log('borrowerlist synced')
 } catch (error) {
   console.error(error)
 }

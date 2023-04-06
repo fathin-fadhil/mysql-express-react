@@ -1,7 +1,8 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../middleware/checkAuthentication.js';
 const router = Router()
-import { findBooks, getPagination, getPagingData } from '../controllers/BooksControler.js';
+import { findBooks, getPagination, getPagingData, getBookById } from '../controllers/BooksControler.js';
+import { getBorrowedBooksId } from "../controllers/BorrowerControler.js";
 
 router.get('/test', isAuthenticated, (req, res) => {
     res.json({goodbye: 'world'})
@@ -26,9 +27,15 @@ router.get('/catalog', isAuthenticated, async (req, res) => {
     
 })
 
-router.get('/catalog/search', /* isAuthenticated,  */async (req, res) => {
-    const query = req.body.query
-    const books = await findBooks(query)
+router.get('/borrowing', isAuthenticated, async (req, res) => {
+    const email = req.email
+
+    const borrowedBooksId = await getBorrowedBooksId(email)
+    let books = []
+    for (let index = 0; index < borrowedBooksId.length; index++) {
+        const book = await getBookById(borrowedBooksId[index])
+        books.push(book)
+    }
     res.json({booksArray: books})
 })
 
