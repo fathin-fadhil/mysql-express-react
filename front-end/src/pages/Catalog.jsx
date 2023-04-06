@@ -5,6 +5,7 @@ import placeholderImg from '../assets/img/placeholderImg.png'
 import useWindowDimensions from '../hooks/useWindowsDimensions';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ReactPaginate from 'react-paginate';
+import FooterComp from '../components/FooterComp'
 
 const Catalog = () => {
     const [dialog, setDialog] = useState(false);
@@ -174,15 +175,17 @@ const Catalog = () => {
                     </Button>
                     </DialogFooter>
             </Dialog>
-            <div className='flex justify-center my-5 h-20'>
+            <div className='flex justify-center my-7 h-fit'>
                 <ReactPaginate previousLabel='<' nextLabel=">" pageCount={totalPage} onPageChange={changePage} initialPage={0}
-                    containerClassName='inline-flex -space-x-px'
+                    containerClassName='inline-flex -space-x-px h-fit'
                     activeLinkClassName='px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
                     previousLinkClassName='px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
                     pageLinkClassName='px-3 py-2 leading-tight text-gray-500  border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
                     nextLinkClassName='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'                    
+                    pageClassName='h-fit'
                 ></ReactPaginate>
             </div>
+            <FooterComp />
         </div>
     );
 }
