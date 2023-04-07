@@ -123,3 +123,15 @@ export async function editUser(userId, name, email, roles) {
         console.log(error)
     }    
 }
+
+export async function deleteUser(userId) {
+    try {
+        await Users.destroy({
+            where: {
+                id: userId
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}

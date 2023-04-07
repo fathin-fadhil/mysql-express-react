@@ -4,7 +4,7 @@ const router = Router()
 import { findBooks, getPagination, getPagingData, getBookById } from '../controllers/BooksControler.js';
 import { getBorrowedBooksId, borrowBook, returnBook } from "../controllers/BorrowerControler.js";
 import { isAdmin } from "../middleware/checkRoles.js";
-import { editUser, getUsers } from '../controllers/UserController.js';
+import { deleteUser, editUser, getUsers } from '../controllers/UserController.js';
 
 router.get('/test', isAuthenticated, (req, res) => {
     res.json({goodbye: 'world'})
@@ -85,10 +85,21 @@ router.get('/users', isAuthenticated, isAdmin, async (req, res) => {
     }
 })
 
-router.post('/edituser', isAuthenticated, isAdmin, async (req, res) => {
+router.put('/users', isAuthenticated, isAdmin, async (req, res) => {
     try {
         const {id, email, name, roles} = req.body
         await editUser(id, name, email, roles)
+        res.sendStatus(202)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500)
+    }
+})
+
+router.delete('/users', isAuthenticated, isAdmin, async (req, res) => {
+    try {
+        const id = req.query.id
+        await deleteUser(id)
         res.sendStatus(202)
     } catch (error) {
         console.log(error)

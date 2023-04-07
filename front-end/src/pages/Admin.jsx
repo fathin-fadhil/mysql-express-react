@@ -11,6 +11,8 @@ function Admin() {
   const [responseDialog, setResponseDialog] = useState(false);
   const [serverResponse, setServerResponse] = useState({data: 'Loading..'});
   const [responseLoading, setResponseLoading] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [deleteUserId, setDeleteUserId] = useState(-1);
   
   const axiosPrivate = useAxiosPrivate()
 
@@ -25,22 +27,45 @@ function Admin() {
 
   const handleEditUser = async () => {
     setResponseLoading(true)
+    setUserEditDialog(false)
+    setResponseDialog(true)
     try {
-      const res = await axiosPrivate.post('/api/edituser', {
+      const res = await axiosPrivate.put('/api/users', {
         ...editedUserData
       })      
-      console.log(res)
-      setUserEditDialog(false)
+      console.log(res)      
+      setServerResponse('Request Accepted')
+      getUsers()
+    } catch (error) {
+      console.log(error)
+      setServerResponse(`${error.message}`)
+    }
+    setResponseLoading(false)
+  }
+
+  const handleDeleteUser = () => {
+    setResponseLoading(true)
+    setDeleteDialog(false)
+    setResponseDialog(true)
+    try {
+      const res = axiosPrivate.delete('/api/users', {
+        params: {
+          id: deleteUserId
+        }
+      })
       setServerResponse('Request Accepted')
       getUsers()
       setResponseDialog(true)
     } catch (error) {
       console.log(error)
-      setUserEditDialog(false)
-      setResponseDialog(true)
       setServerResponse(`${error.message}`)
     }
     setResponseLoading(false)
+  }
+
+  const handleDeleteDialog = (id) => {
+    setDeleteUserId(id)
+    setDeleteDialog(true)
   }
 
   const handleEditDialog = (index) => {
@@ -127,7 +152,7 @@ function Admin() {
                                   </td>
                                   <td className="px-6 py-4 ">
                                       <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-2" onClick={() => {handleEditDialog(index)}}>Edit</a>
-                                      <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                                      <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline" onClick={() => {handleDeleteDialog(user.id)}} >Delete</a>
                                   </td>
                                 </tr>                                 
                               )) 
@@ -195,7 +220,25 @@ function Admin() {
               <span>Ok</span>
             </Button>
           </DialogFooter>
+        </Dialog>   
+
+        <Dialog open={deleteDialog} size="lg" handler={() => {setDeleteDialog(!deleteDialog)}} className="flex flex-col justify-center p-4">
+          <DialogHeader className="text-center inline">Confirm Deletion</DialogHeader>
+
+          <DialogBody className="  self-center text-center w-full">
+            Apakah anda yakin akan menghapus User ini?
+          </DialogBody>
+
+          <DialogFooter className=" justify-center">
+            <Button variant="text" color="red" onClick={() => setDeleteDialog(!deleteDialog)} className="mr-1">
+              <span>Cancel</span>
+            </Button>
+            <Button variant="gradient" color="blue" onClick={() => handleDeleteUser()}>
+              <span>Confirm</span>
+            </Button>
+          </DialogFooter>
         </Dialog>      
+
       </div>
     </div>
   )
