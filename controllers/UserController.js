@@ -1,11 +1,11 @@
-import db from '../config/database.js';
 import Users from '../models/UsersModel.js'
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export async function getUsers() {
     try {
-        const users = await Users.findAll()
+        const usersData = await Users.findAll()
+        const users = await usersData.map((user) => user.dataValues)
         return users
     } catch (error) {
         console.error(error)
@@ -49,7 +49,6 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
     const {name, email, password, confPassword} = req.body
-    console.log("🚀 ~ file: UserController.js:17 ~ register ~ email:", email)
     
     if (password !== confPassword) {
         res.status(400).json({message: 'Password dan Confirm Password tidak sesuai'})
@@ -109,4 +108,18 @@ export const getUserByEmail = async (emailToFind) => {
     return null
 }
 
-
+export async function editUser(userId, name, email, roles) {
+    try {
+        await Users.update({
+            name,
+            email,
+            roles
+        }, {
+            where: {
+                id: userId
+            }
+        })        
+    } catch (error) {
+        console.log(error)
+    }    
+}
