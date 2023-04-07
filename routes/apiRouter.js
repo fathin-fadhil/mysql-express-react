@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { isAuthenticated } from '../middleware/checkAuthentication.js';
 const router = Router()
 import { findBooks, getPagination, getPagingData, getBookById } from '../controllers/BooksControler.js';
-import { getBorrowedBooksId, borrowBook } from "../controllers/BorrowerControler.js";
+import { getBorrowedBooksId, borrowBook, returnBook } from "../controllers/BorrowerControler.js";
 
 router.get('/test', isAuthenticated, (req, res) => {
     res.json({goodbye: 'world'})
@@ -36,7 +36,7 @@ router.get('/borrowing', isAuthenticated, async (req, res) => {
         const book = await getBookById(borrowedBooksId[index])
         books.push(book)
     }
-    res.json({booksArray: books})
+    res.json({booksData: {booksArray: books, totalItems: books.length}})
 })
 
 router.post('/borrow', isAuthenticated, async (req, res) => {
@@ -50,6 +50,19 @@ router.post('/borrow', isAuthenticated, async (req, res) => {
     }
     await borrowBook(email, bookId)
     res.json({message: "Request successful"})
+})
+
+router.post('/return', isAuthenticated, async (req, res) => {
+    try {
+        const email = req.email
+        const bookId = req.body.bookId
+
+        await returnBook(email, bookId)    
+        res.sendStatus(200)
+    } catch (error) {
+        res.sendStatus(500)
+    }
+    
 })
 
 export default router

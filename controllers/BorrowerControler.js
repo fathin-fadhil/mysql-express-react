@@ -41,3 +41,16 @@ export async function borrowBook(email, bookId) {
         console.log(error)
     }
 }
+
+export async function returnBook(user_email, bookId) {
+    try {
+        await BorrowerList.destroy({
+            where: {
+                borrower_email: user_email,
+                book_id: bookId
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
