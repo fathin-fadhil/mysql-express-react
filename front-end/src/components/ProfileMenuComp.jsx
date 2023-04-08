@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { UserCircleIcon,  ChevronDownIcon, Cog6ToothIcon, BookOpenIcon, UserGroupIcon  , PowerIcon } from "@heroicons/react/24/outline";
 import { Typography, Button, Menu, MenuHandler, MenuList, MenuItem, Avatar} from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
@@ -10,22 +9,14 @@ function ProfileMenuComp() {
   const [cookies, setCookie, removeCookie] = useCookies(['cred'])
   const cookieAuth = cookies['cred']
   const userRole = cookieAuth.roles
+  const userName = cookieAuth.name
   const navigate = useNavigate()
   const closeMenu = () => setIsMenuOpen(false);
   const goToMyBook = () => {navigate('/mybooks')}
   const goToAdminPage = () => {navigate('/admin')}
+  const [greetings, setGreetings] = useState('Hello,');
 
     const profileMenuItems = [
-      {
-        label: "My Profile",
-        icon: UserCircleIcon,
-        onclick: closeMenu
-      },
-      {
-        label: "Edit Profile",
-        icon: Cog6ToothIcon,
-        onclick: closeMenu
-      },
       {
         label: "My Books",
         icon: BookOpenIcon,
@@ -38,7 +29,7 @@ function ProfileMenuComp() {
     ];  
 
     if (userRole === 'admin') {
-      profileMenuItems.splice(3, 0, {
+      profileMenuItems.splice(profileMenuItems.length - 1, 0, {
         label: 'Admin Page',
         icon: UserGroupIcon ,
         onclick: goToAdminPage
@@ -48,6 +39,17 @@ function ProfileMenuComp() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     
     const handleSignout = () => {setIsMenuOpen(false); navigate('/signout')}
+
+    useEffect(() => {
+      var curHr = new Date().getHours()
+      if (curHr < 12) {
+        setGreetings('Good Morning, ')
+      } else if (curHr < 18) {
+        setGreetings('Good Afternoon, ')
+      } else {
+        setGreetings('Good Evening, ')
+      } 
+    })
    
     return (
       <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -72,7 +74,15 @@ function ProfileMenuComp() {
             />
           </Button>
         </MenuHandler>
-        <MenuList className="p-1">
+        <MenuList className="p-1 w-fit">
+          <MenuItem>
+              <Typography variant='small' >
+                {greetings}
+              </Typography>
+              <Typography variant='small' >
+                {userName}
+              </Typography>
+          </MenuItem>
           {profileMenuItems.map(({ label, icon, onclick }, key) => {
             const isLastItem = key === profileMenuItems.length - 1;
             return (
