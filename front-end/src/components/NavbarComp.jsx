@@ -6,7 +6,7 @@ import { CiLogin } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-function NavbarComp() {
+function NavbarComp({isInHome}) {
     const [openNav, setOpenNav] = useState(false);
     const navigate = useNavigate()
     const [cookies] = useCookies(['cred'])
@@ -39,7 +39,7 @@ function NavbarComp() {
             color="blue-gray"
             className="p-1 font-normal"
         >
-            <a href="/" className="flex items-center">
+            <a href={isInHome? '#hero' : '/'}className="flex items-center">
                 Home
             </a>
         </Typography>
@@ -49,7 +49,7 @@ function NavbarComp() {
             color="blue-gray"
             className="p-1 font-normal"
         >
-            <a href="/aboutus" className="flex items-center">
+            <a href={isInHome? '#aboutus' : '/aboutus'} className="flex items-center">
                 About Us
             </a>
         </Typography>
@@ -59,7 +59,7 @@ function NavbarComp() {
             color="blue-gray"
             className="p-1 font-normal"
         >
-            <a href="/gallery" className="flex items-center">
+            <a href={isInHome? '#gallery' : '/gallery'} className="flex items-center">
                 Gallery
             </a>
         </Typography>
@@ -71,7 +71,7 @@ function NavbarComp() {
     <>
       <Navbar className="sticky inset-0 z-10 h-max max-w-full rounded-none py-2 px-4 lg:px-8 lg:py-4">
         <div className="flex items-center  text-blue-gray-900 justify-between">
-          <img src={pjslogo} className=' h-11'></img>
+          <img src={pjslogo} className=' h-11 cursor-pointer' onClick={() => {navigate('/')}}></img>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <Button
@@ -125,7 +125,7 @@ function NavbarComp() {
         </div>
         <MobileNav open={openNav}>
           {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2">
+          <Button variant="gradient" size="sm" fullWidth className="mb-2" onClick={goToCatalog}>
             <span>Catalog</span>
           </Button>
         </MobileNav>

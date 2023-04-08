@@ -23,7 +23,7 @@ function Home(props) {
     return (
         <>
             <div className=' block '>
-                <NavbarComp />            
+                <NavbarComp isInHome={true}/>            
                 <section id='hero'>
                     <div>
                         <div className=" bg-center  bg-[url('/images/mainimage.jpeg')] bg-cover w-full h-screen text-center" style={{backgroundImage: `url(${mainimage})`}} >
@@ -44,7 +44,8 @@ function Home(props) {
                     </div>
                 </section>
 
-                <section id='aboutus'>
+                <section style={{position: 'relative'}}>
+                    <span id='aboutus' style={{position: 'absolute', top: '-200px'}}></span>
                     <div className=' flex flex-col text-center bg-blue-gray-50 px-6 py-10 md:py-15 xl:py-24'>
                         <h1 className=' text-gray-900 text-3xl md:text-4xl xl:text-5xl font-bold font-sans '>About US</h1>
                         <hr className=' w-20 mx-auto bg-blue-400 h-2 my-3'></hr>
@@ -56,7 +57,8 @@ function Home(props) {
                     </div>
                 </section>
 
-                <section id='gallery'>
+                <section style={{position: 'relative'}}>
+                    <span id='gallery' style={{position: 'absolute', top: '-200px'}}></span>
                     <div className=' flex flex-col text-center p-6'>
                         <h1 className=' text-gray-900 text-3xl md:text-4xl xl:text-5xl font-bold font-sans'> Photo Gallery</h1>
                         <hr className=' w-20 mx-auto bg-blue-400 h-2 my-5'></hr>
