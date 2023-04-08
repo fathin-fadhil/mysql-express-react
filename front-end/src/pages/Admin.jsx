@@ -3,6 +3,7 @@ import NavbarComp from "../components/NavbarComp";
 import { UserGroupIcon, BookOpenIcon  } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import BooksTable from '../components/BooksTable';
 
 function Admin() {
   const [usersList, setUserslist] = useState([])
@@ -32,8 +33,7 @@ function Admin() {
     try {
       const res = await axiosPrivate.put('/api/users', {
         ...editedUserData
-      })      
-      console.log(res)      
+      })           
       setServerResponse('Request Accepted')
       getUsers()
     } catch (error) {
@@ -161,8 +161,8 @@ function Admin() {
                     </table>
                 </div>                
               </TabPanel>
-              <TabPanel value="Books">
-                book
+              <TabPanel value="Books" className="flex justify-center ">
+                <BooksTable setResponseLoading={setResponseLoading} setResponseDialog={setResponseDialog} setServerResponse={setServerResponse} setDeleteDialog={setDeleteDialog}></BooksTable>
               </TabPanel>
           </TabsBody>
         </Tabs>        

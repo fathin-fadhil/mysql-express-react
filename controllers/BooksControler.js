@@ -37,7 +37,6 @@ export async function findBooks(query, limit, offset) {
             limit: limit,
             offset: offset
         })
-        //const books = await rawBooks.map(value => value.dataValues)
         return rawBooks
     } catch (error) {
         console.log(error)
@@ -56,6 +55,56 @@ export async function getBookById(id) {
             return book.dataValues
         }
         return null
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function editBook(id, judul, image_url, tahun_terbit, penerbit, pengarang, deskripsi, ISBN, jumlah_halaman) {
+    try {
+        await Books.update({
+            judul, 
+            image_url, 
+            tahun_terbit, 
+            penerbit, 
+            pengarang, 
+            deskripsi, 
+            ISBN, 
+            jumlah_halaman
+        }, {
+            where: {
+                id: id
+            }
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function deleteBook(id) {
+    try {
+        await Books.destroy({
+            where: {
+                id: id
+            }
+        })
+    } catch (error) {
+        console.log(error)    
+    }
+}
+
+export async function newBook(judul, image_url, tahun_terbit, penerbit, pengarang, deskripsi, ISBN, jumlah_halaman) {
+    try {
+        await Books.create({
+            judul, 
+            image_url, 
+            tahun_terbit, 
+            penerbit, 
+            pengarang, 
+            deskripsi, 
+            ISBN, 
+            jumlah_halaman
+        })        
     } catch (error) {
         console.log(error)
     }

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { isAuthenticated } from '../middleware/checkAuthentication.js';
 const router = Router()
-import { findBooks, getPagination, getPagingData, getBookById } from '../controllers/BooksControler.js';
+import { findBooks, getPagination, getPagingData, getBookById, editBook, deleteBook, newBook } from '../controllers/BooksControler.js';
 import { getBorrowedBooksId, borrowBook, returnBook } from "../controllers/BorrowerControler.js";
 import { isAdmin } from "../middleware/checkRoles.js";
 import { deleteUser, editUser, getUsers } from '../controllers/UserController.js';
@@ -103,6 +103,37 @@ router.delete('/users', isAuthenticated, isAdmin, async (req, res) => {
         res.sendStatus(202)
     } catch (error) {
         console.log(error)
+        res.sendStatus(500)
+    }
+})
+
+router.put('/book', isAuthenticated, isAdmin, async (req, res) => {
+    try {
+        const {id, judul, image_url, tahun_terbit, penerbit, pengarang, deskripsi, ISBN, jumlah_halaman } = req.body
+        await editBook(id, judul, image_url, tahun_terbit, penerbit, pengarang, deskripsi, ISBN, jumlah_halaman)
+        res.sendStatus(202)
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(500)
+    }
+})
+
+router.delete('/book', isAuthenticated, isAdmin, async (req, res) => {
+    const id = req.query.id   
+    try {
+        await deleteBook(id)
+        res.sendStatus(202)
+    } catch (error) {
+        res.sendStatus(500)
+    }
+})
+
+router.post('/book', isAuthenticated, isAdmin, async (req, res) => {
+    const {judul, image_url, tahun_terbit, penerbit, pengarang, deskripsi, ISBN, jumlah_halaman} = req.body
+    try {
+        await newBook(judul, image_url, tahun_terbit, penerbit, pengarang, deskripsi, ISBN, jumlah_halaman)
+        res.sendStatus(201)
+    } catch (error) {
         res.sendStatus(500)
     }
 })
