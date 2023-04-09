@@ -1,4 +1,4 @@
-import { Typography, Textarea, Tabs, TabsHeader, TabsBody, Tab, TabPanel, Input, Button, Dialog, DialogHeader, DialogBody, DialogFooter, } from "@material-tailwind/react";
+import { Typography, Textarea, Input, Button, Dialog, DialogHeader, DialogBody, DialogFooter, } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import ReactPaginate from "react-paginate";

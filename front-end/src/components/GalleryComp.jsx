@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 import gal1 from '../assets/img/gal-1.jpg'
 import gal2 from '../assets/img/gal-2.jpg'
 import gal3 from '../assets/img/gal-3.jpg'

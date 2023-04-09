@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { UserCircleIcon,  ChevronDownIcon, Cog6ToothIcon, BookOpenIcon, UserGroupIcon  , PowerIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, BookOpenIcon, UserGroupIcon  , PowerIcon } from "@heroicons/react/24/outline";
 import { Typography, Button, Menu, MenuHandler, MenuList, MenuItem, Avatar} from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';

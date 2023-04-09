@@ -1,6 +1,6 @@
 import {Card, Input, Checkbox, Button, Typography,} from "@material-tailwind/react";
 import axios from "axios";
-import React, {useState} from 'react'
+import {useState} from 'react'
 
 
 export default function RegisterComp(props) {

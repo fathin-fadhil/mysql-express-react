@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 import NavbarComp from '../components/NavbarComp';
 import { Card, CardHeader, CardBody, Typography, Button, Dialog, DialogBody, DialogHeader, DialogFooter, Input } from "@material-tailwind/react";
-import placeholderImg from '../assets/img/placeholderImg.png'
 import useWindowDimensions from '../hooks/useWindowsDimensions';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ReactPaginate from 'react-paginate';
@@ -24,7 +23,7 @@ const Catalog = () => {
     const [borrowLoading, setBorrowLoading] = useState(false);
     const [borrowSuccess, setBorrowSuccess] = useState(false);
 
-    const {height, width } = useWindowDimensions()
+    const { width } = useWindowDimensions()
 
     const axiosPrivate = useAxiosPrivate()
 

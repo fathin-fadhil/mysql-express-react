@@ -1,4 +1,3 @@
-import React from 'react';
 import {FaFacebookF, FaTwitter, FaYoutube, FaInstagram} from 'react-icons/fa';
 import pjslogo from '../assets/pjslogo.svg';
 import {Typography} from "@material-tailwind/react";

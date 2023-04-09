@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Button} from "@material-tailwind/react";
 import NavbarComp from '../components/NavbarComp';
 import {RxArrowRight} from 'react-icons/rx';

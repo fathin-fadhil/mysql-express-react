@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import axios from 'axios';
-
+import { useState } from 'react'
 import RegisterComp from '../components/RegisterComp';
 import LoginComp from "../components/LoginComp";
 

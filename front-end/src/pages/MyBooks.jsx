@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 import NavbarComp from '../components/NavbarComp';
-import { Card, CardHeader, CardBody, Typography, Button, Dialog, DialogBody, DialogHeader, DialogFooter, Input } from "@material-tailwind/react";
-import placeholderImg from '../assets/img/placeholderImg.png'
+import { Card, CardHeader, CardBody, Typography, Button, Dialog, DialogBody, DialogHeader, DialogFooter } from "@material-tailwind/react";
 import useWindowDimensions from '../hooks/useWindowsDimensions';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import FooterComp from '../components/FooterComp'
@@ -20,7 +19,7 @@ const MyBook = () => {
     const [returnLoading, setReturnLoading] = useState(false);
     const [returnSuccess, setReturnSuccess] = useState(false);
 
-    const {height, width } = useWindowDimensions()
+    const { width } = useWindowDimensions()
 
     const axiosPrivate = useAxiosPrivate()
 
