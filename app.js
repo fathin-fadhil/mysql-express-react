@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import createError from "http-errors";
 import dotenv from 'dotenv';
+import compression from 'compression';
 
 // module import
 import db  from "./config/database.js";
@@ -22,6 +23,7 @@ dotenv.config()
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+app.use(compression())
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
