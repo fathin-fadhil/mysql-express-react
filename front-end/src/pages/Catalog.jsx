@@ -176,26 +176,28 @@ const Catalog = () => {
                 </p>
             </div>
 
-            <div className='grid grid-cols-1 customDesktopBp:grid-cols-2 px-4 flex-1'>
-                {dataBuku.map((value, index) => (
-                <Card shadow={false} key={index} className='flex maxSm:flex-col flex-row p-4 shadow-lg  m-3 maxSm:text-center maxSm:items-center py-6 bg-blue-gray-50'>
-                    <CardHeader className='m-0 flex-shrink-0  h-fit my-auto w-fit '>
-                        <img src={value.image_url} className=' h-44 md:h-52 xl:h-80 max-h-80 '></img>
-                    </CardHeader>
-                    <CardBody className='flex flex-col pl-4 py-0 flex-shrink overflow-clip flex-grow' >
-                        <Typography className=' font-bold text-black text-xl md:text-3xl xl:text-3xl '>{value.judul}</Typography>
-                        <Typography className=' font-medium text-base md:text-base xl:text-lg '>{value.pengarang} · {value.tahun_terbit}</Typography>
-                        <Typography className=' font-medium text-base md:text-base xl:text-lg '>{value.penerbit}</Typography>
-                        <p className=' break-words'>{value.deskripsi}</p>
+            <div className=' grow mb-3'>
+                <div className='grid grid-cols-1 customDesktopBp:grid-cols-2 px-4 flex-1'>
+                    {dataBuku.map((value, index) => (
+                    <Card shadow={false} key={index} className='flex maxSm:flex-col flex-row p-4 shadow-lg  m-3 maxSm:text-center maxSm:items-center py-6 bg-blue-gray-50'>
+                        <CardHeader className='m-0 flex-shrink-0  h-fit my-auto w-fit '>
+                            <img src={value.image_url} className=' h-44 md:h-52 xl:h-80 max-h-80 '></img>
+                        </CardHeader>
+                        <CardBody className='flex flex-col pl-4 py-0 flex-shrink overflow-clip flex-grow' >
+                            <Typography className=' font-bold text-black text-xl md:text-3xl xl:text-3xl '>{value.judul}</Typography>
+                            <Typography className=' font-medium text-base md:text-base xl:text-lg '>{value.pengarang} · {value.tahun_terbit}</Typography>
+                            <Typography className=' font-medium text-base md:text-base xl:text-lg '>{value.penerbit}</Typography>
+                            <p className=' break-words'>{value.deskripsi}</p>
 
-                        <div className={`mt-auto w-fit maxSm:mx-auto`}>
-                        <Button className='w-fit mr-3' variant='text' onClick={ () => {openDialog(index)}}>Lihat Detail</Button>
-                        <Button className='w-fit' onClick={() => {handleBorrowDialog(value.id)}}>Pinjam Buku</Button>
-                        </div>
-                        
-                    </CardBody>
-                </Card>
-                ))}                
+                            <div className={`mt-auto w-fit maxSm:mx-auto`}>
+                            <Button className='w-fit mr-3' variant='text' onClick={ () => {openDialog(index)}}>Lihat Detail</Button>
+                            <Button className='w-fit' onClick={() => {handleBorrowDialog(value.id)}}>Pinjam Buku</Button>
+                            </div>
+                            
+                        </CardBody>
+                    </Card>
+                    ))}                
+                </div>
             </div>
 
             <Dialog open={dialog} size={dialogSize} handler={() => {setDialog(!dialog)}}>
