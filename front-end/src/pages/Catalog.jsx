@@ -5,6 +5,7 @@ import useWindowDimensions from '../hooks/useWindowsDimensions';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import ReactPaginate from 'react-paginate';
 import FooterComp from '../components/FooterComp'
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Catalog = () => {
     const [dialog, setDialog] = useState(false);
@@ -27,6 +28,8 @@ const Catalog = () => {
 
     const axiosPrivate = useAxiosPrivate()
 
+    const [parent] = useAutoAnimate({duration:300});
+
     const onSearchChange = (ev) => {
         setSearch(ev.target.value)
     } 
@@ -37,7 +40,9 @@ const Catalog = () => {
     }
 
     const handleSearch = async () => {
+        //window.scrollTo({behavior: 'smooth', top:0})
         setIsLoading(true)
+        setDataBuku([])
         try {
             const books = await axiosPrivate.get('/api/catalog', {
                 params: {                    
@@ -55,7 +60,7 @@ const Catalog = () => {
             }
             setTotalPage(books.data.booksData.totalPages)
             setErrorMessage({})
-            setDataBuku(booksArray)
+            setDataBuku([...booksArray])
         } catch (error) {
             console.log(error)
             setErrorMessage({message:error.message, code: error.code, data: error.response?.statusText})
@@ -87,7 +92,7 @@ const Catalog = () => {
 
     const changePage = ({selected}) => {
         setPage(selected)
-        window.scrollTo({behavior: 'smooth', top:0})
+        //window.scrollTo({behavior: 'smooth', top:0})
     }
 
     const openDialog = (indexBuku) => {
@@ -177,7 +182,7 @@ const Catalog = () => {
             </div>
 
             <div className=' grow mb-3'>
-                <div className='grid grid-cols-1 customDesktopBp:grid-cols-2 px-4 flex-1'>
+                <div ref={parent} className='grid grid-cols-1 customDesktopBp:grid-cols-2 px-4 flex-1'>
                     {dataBuku.map((value, index) => (
                     <Card shadow={false} key={index} className='flex maxSm:flex-col flex-row p-4 shadow-lg  m-3 maxSm:text-center maxSm:items-center py-6 bg-blue-gray-50'>
                         <CardHeader className='m-0 flex-shrink-0  h-fit my-auto w-fit '>
@@ -264,7 +269,8 @@ const Catalog = () => {
                         {
                             borrowError.code
                             ? borrowError.data === 'Conflict' ? 'Request gagal (Buku ini sudah anda pinjam)' : `Error while processing reqest, Error data : ${borrowError.data}`
-                            : borrowSuccess? 'Buku berhasil dipinjam': 'Apakah anda yakin ingin meminjam buku ini?'
+                            : borrowSuccess? 'Buku berhasil dipinjam'
+                            : borrowLoading? '' : 'Apakah anda yakin ingin meminjam buku ini?'
                         }
                     </DialogBody>
                     {
